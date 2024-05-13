@@ -1,7 +1,8 @@
-var ws = new WebSocket('ws://127.0.0.1:8000/ws/as/');
+var ws = new WebSocket('ws://127.0.0.1:8000/ws/sc/');
 
 ws.onopen = function() {
     console.log('WebSocket is connected');
+    
     ws.send('Hello from the client!');
 }
 
