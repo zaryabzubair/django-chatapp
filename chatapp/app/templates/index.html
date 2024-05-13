@@ -8,16 +8,16 @@
     <title>Chat App</title>
 </head>
 <body>
-    <h1>Chat Box</h1>
+    <h1>Group Name: {{groupname}}</h1>
     <h2>Chat Messages</h2>
     <div id="chat-messages"></div>
-    <form id="chat-form">
-        <textarea id="chat-input" col = "100" rows = "10" placeholder="Type your message here"></textarea>
-        <br>
-        <input type="text" id="chat-input" placeholder="Type your message here">
-        <button type="submit" id="chat-submit">Send</button>
-    </form>
-
+    
+    <textarea id="chat-log" cols = "100" rows = "10" placeholder="Type your message here"></textarea>
+    <br>
+    <input type="text" id="chat-message" placeholder="Type your message here" size="100"><br>
+    <input type="submit" id="chat-submit"/>
+    
+    {{groupname | json_script:"group-name"}}
     <script src="{% static 'script.js' %}" type="text/javascript"></script>
 </body>
 </html>

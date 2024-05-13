@@ -1,26 +1,41 @@
-var ws = new WebSocket('ws://127.0.0.1:8000/ws/sc/');
+const groupName = JSON.parse(document.getElementById('group-name').textContent);
+console.log('Group name:', groupName);
+
+var ws = new WebSocket(
+    'ws://' + window.location.host + '/ws/sc/' + groupName + '/'
+);
 
 ws.onopen = function() {
     console.log('WebSocket is connected');
-    
-    ws.send('Hello from the client!');
 }
 
-ws.onmessage = function(e) {
-    console.log('Message:', e.data);
-    console.log('Message Received from server', JSON.parse(e.data));
-    console.log('Type:', typeof (e.data));
-    var data = JSON.parse(e.data);
-    console.log('Type:', typeof (data));
-    document.getElementById('chat').innerText= data.count
-}
-
-ws.onerror = function(e) {
-    console.log('WebSocket error:', e);
+ws.onmessage = function(event) {
+    console.log('WebSocket message received:', event.data);
+    console.log('Type of message:', typeof(event.data));
+    const data = JSON.parse(event.data);
+    console.log('Data:', data);
+    console.log('Type of data:', typeof(data));
+    console.log('Actual message:', data.message);
+    document.querySelector('#chat-log').value += (data.message + '\n');
 
 }
 
-ws.onclose = function(e) {
+
+ws.onerror = function(event) {
+    console.log('WebSocket error:', event);
+
+}
+
+ws.onclose = function(event) {
     console.log('WebSocket is closed');
+}
+
+document.getElementById('chat-submit').onclick = function(event) {
+    const messageInput = document.getElementById('chat-message');
+    const message = messageInput.value
+    ws.send(JSON.stringify({
+        'message': message,
+    }));
+    messageInput.value = '';
 }
 
